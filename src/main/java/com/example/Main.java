@@ -34,6 +34,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.example.business.Business;
+
 @Controller
 @SpringBootApplication
 public class Main {
@@ -55,7 +57,9 @@ public class Main {
 
   @RequestMapping("/mvideoconverter")
   String mvideoconverter() {
-    return "mvideoconverter";
+	  Business b = new Business();
+	  int a = b.Sum(2, 2);
+	  return "mvideoconverter";
   }
 
   @RequestMapping("/db")
