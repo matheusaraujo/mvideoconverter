@@ -44,12 +44,14 @@ Algumas sugestão de melhorias são:
 * Heroku
 	* https://devcenter.heroku.com/articles/getting-started-with-java
 	* https://github.com/heroku/java-getting-started
+	* https://devcenter.heroku.com/articles/s3
 * Zencoder
 	* https://zencoder.com/
 	* https://github.com/zencoder/zencoder-java
 * Amazon S3
 	* https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/getting-started.html
 	* https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURLJavaSDK.html
+	* https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 * AngularJS + S3
 	* http://www.cheynewallace.com/uploading-to-s3-with-angularjs-and-pre-signed-urls/
 	* https://github.com/cheynewallace/angular-s3-upload
