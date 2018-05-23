@@ -1,0 +1,21 @@
+title mvideoconverter
+alt envio do arquivo
+    app->amazonS3: enviar arquivo
+    amazonS3->app: retorno
+    app->api: enviar url do arquivo
+    api->zencoder: enviar url do arquivo
+    zencoder->api: retorno com id do job
+    api->app: retorno com id do job
+end
+alt conversao do arquivo
+    zencoder->zencoder: converter arquivo
+    zencoder->amazonS3: salvar arquivo convetido
+end
+alt exibicao do arquivo
+    app->api: buscar situacao do job
+    api->zencoder: buscar situacao do job
+    zencoder->api: retorno com situacao do job
+    api->app: retorno com situacao do job
+    app->amazonS3: abrir video
+    app->app: exibir video
+end
