@@ -15,8 +15,7 @@ public class MAmazonS3Test {
 		
 		assertNotNull(url);
 		assertNotEquals("-1", url);
-		assertTrue(url.startsWith("http"));
-		
+		assertTrue(url.startsWith("http"));		
 	}
 	
 	@Test
@@ -30,7 +29,20 @@ public class MAmazonS3Test {
 		
 		assertNotNull(publicLink);
 		assertTrue(publicLink.contains(fileName));
-		assertTrue(publicLink.startsWith("s3"));
+		assertTrue(publicLink.startsWith("s3"));		
+	}
+	
+	@Test
+	public void testRemoveExtension() {
+		
+		MAmazonS3 s3 = new MAmazonS3();
+		
+		String fullName = "aaa.mp3";
+		
+		String name = s3.RemoveExtension(fullName);
+		
+		assertEquals("aaa", name);
+		assertTrue(fullName.contains(name));
 		
 	}
 

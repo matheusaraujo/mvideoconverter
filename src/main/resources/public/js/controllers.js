@@ -7,7 +7,7 @@ var STATE_ERROR = "fa-times-circle text-danger";
 
 var controllers = angular.module('controllers', []);
 
-controllers.controller('UploadController',['$scope', '$http', function($scope, $http) {
+controllers.controller('UploadController',['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
     
 	$scope.fileName = "";
 	$scope.fileType = "";
@@ -28,7 +28,17 @@ controllers.controller('UploadController',['$scope', '$http', function($scope, $
 		}
 	});
 
+	$scope.startUpload = function () {
+		$scope.step1class = STATE_INITIAL;
+		$scope.step2class = STATE_INITIAL;
+		$scope.step3class = STATE_INITIAL;
+		$scope.step4class = STATE_INITIAL;
+	};
+
     $scope.upload = function() {
+
+		$scope.startUpload();
+
     	if ($scope.file) {
     		$scope.step1class = STATE_LOADING;
     		$http.post('/api/presigned', {name: $scope.file.name, type: $scope.file.type })
@@ -80,11 +90,38 @@ controllers.controller('UploadController',['$scope', '$http', function($scope, $
 
 		console.info(resp);
 
-		toastr.success('Temporary done', 'Done');
+		$http.get('/api/conversion/' + resp.jobId)
+			.success($scope.step4success)
+			.error($scope.step4error);
 	};
 
 	$scope.step3error = function (resp) {
 		$scope.step3class = STATE_ERROR;
+		console.error(resp);
+		toastr.error("An Error Occurred Attaching Your File");
+	};
+
+	$scope.step4success = function (resp) {
+		if (resp.state == 'waiting' || resp.state == 'processing') {
+			$timeout(function () {
+				$http.get('/api/conversion/' + resp.jobId)
+					.success($scope.step4success)
+					.error($scope.step4error);
+			}, 1000);
+		}
+		else if (resp.state == 'finished') {
+			$scope.step4class = STATE_DONE;
+			toastr.success('File converted!');
+		}
+		else {
+			$scope.step4class = STATE_ERROR;
+			console.error(resp);
+			toastr.error("An Error Occurred Attaching Your File");
+		}
+	};
+
+	$scope.step4error = function (resp) {
+		$scope.step4class = STATE_ERROR;
 		console.error(resp);
 		toastr.error("An Error Occurred Attaching Your File");
 	};

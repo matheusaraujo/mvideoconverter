@@ -52,5 +52,9 @@ public class MAmazonS3 {
 	public String GetPublicLink(String fileName) {
 		return String.format("s3://%s/%s", BUCKET_NAME, fileName);
 	}
+	
+	public String RemoveExtension(String fileName) {
+		return fileName.substring(0, fileName.lastIndexOf('.'));
+	}
 
 }

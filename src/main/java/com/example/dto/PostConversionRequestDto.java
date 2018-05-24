@@ -1,14 +1,14 @@
 package com.example.dto;
 
-public class ConversionRequestDto {
+public class PostConversionRequestDto {
 
 	private String name;
 	
-	public ConversionRequestDto() {
+	public PostConversionRequestDto() {
 		
 	}
 	
-	public ConversionRequestDto(String name) {
+	public PostConversionRequestDto(String name) {
 		this.name = name;
 	}
 	
