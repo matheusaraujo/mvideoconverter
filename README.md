@@ -39,6 +39,7 @@ Algumas sugestão de melhorias são:
 	* Armazenar uma referência para os vídeos convertidos, de forma que eles possam ser apenas exibidos em um segundo acesso
 * Alterações em código
 	* Refatorar a API usando injeção de dependências
+	* Criar arquivos de configuração externos ao código
 
 ## Referências
 * Heroku
@@ -52,6 +53,7 @@ Algumas sugestão de melhorias são:
 	* https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/getting-started.html
 	* https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURLJavaSDK.html
 	* https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+	* https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html
 * AngularJS + S3
 	* http://www.cheynewallace.com/uploading-to-s3-with-angularjs-and-pre-signed-urls/
 	* https://github.com/cheynewallace/angular-s3-upload

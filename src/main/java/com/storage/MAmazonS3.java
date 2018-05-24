@@ -5,7 +5,7 @@ import java.net.URL;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.SdkClientException;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
@@ -22,7 +22,8 @@ public class MAmazonS3 {
         	
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withRegion(CLIENT_REGION)
-                    .withCredentials(new ProfileCredentialsProvider())
+                    //.withCredentials(new ProfileCredentialsProvider())
+                    .withCredentials(new EnvironmentVariableCredentialsProvider())
                     .build();
 
             java.util.Date expiration = new java.util.Date();
