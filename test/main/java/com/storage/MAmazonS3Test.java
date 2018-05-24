@@ -11,7 +11,7 @@ public class MAmazonS3Test {
 		
 		MAmazonS3 s3 = new MAmazonS3();
 		
-		String url = s3.GeneratePreSignedUrl();
+		String url = s3.GeneratePreSignedUrl("testfile");
 		
 		assertNotNull(url);
 		assertNotEquals("-1", url);

@@ -1,8 +1,9 @@
 <!doctype html>
-<html th:fragment="layout (template, menu)">
+<html th:fragment="layout (template, menu)" ng-app="angular-s3-upload">
 <head>
-    <title>Java Getting Started on Heroku</title>
+    <title>mvideoconverter</title>
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="components/toastr/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 </head>
 
@@ -42,7 +43,18 @@
     </nav>
     <div th:replace="${template}"/>
 
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- JavaScript Libs -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>   
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+    <script src="components/angular/angular.js"></script> 
+    <script src="components/toastr/toastr.min.js"></script>    
+    <script src="components/aws-sdk-js/dist/aws-sdk.min.js"></script> 
+
+    <!-- Our JavaScript -->
+    <script src="js/application.js"></script> 
+    <script src="js/controllers.js"></script>   
+    <script src="js/directives.js"></script>  
+
 </body>

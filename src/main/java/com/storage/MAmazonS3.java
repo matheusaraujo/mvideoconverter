@@ -12,26 +12,27 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 
 public class MAmazonS3 {
 	
-	public String GeneratePreSignedUrl() {
-		String clientRegion = "us-east-1";
-        String bucketName = "mvideoconverter";
-        String objectKey = "12345";
-        
+	private final String CLIENT_REGION = "us-east-1";
+	private final String BUCKET_NAME = "mvideoconverter";
+	private final int MINUTES_TO_EXPIRE = 60;
+	
+	public String GeneratePreSignedUrl(String fileName) {
+		
         try {            
         	
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withRegion(clientRegion)
+                    .withRegion(CLIENT_REGION)
                     .withCredentials(new ProfileCredentialsProvider())
                     .build();
 
             java.util.Date expiration = new java.util.Date();
             long expTimeMillis = expiration.getTime();
-            expTimeMillis += 1000 * 60 * 60;
+            expTimeMillis += 1000 * 60 * MINUTES_TO_EXPIRE;
             expiration.setTime(expTimeMillis);
             
             GeneratePresignedUrlRequest generatePresignedUrlRequest = 
-                    new GeneratePresignedUrlRequest(bucketName, objectKey)
-                    .withMethod(HttpMethod.GET)
+                    new GeneratePresignedUrlRequest(BUCKET_NAME, fileName)
+                    .withMethod(HttpMethod.PUT)
                     .withExpiration(expiration);
             
             URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);

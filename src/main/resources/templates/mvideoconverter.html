@@ -1,7 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
 
-	<body>
-		Hello, World
-	</body>
+<body ng-controller="UploadController">
+  
+  <div class="container-fluid">
+    
+    <div class="page-header no-top-marg">
+      <h1>mvideoconverter 
+      	<small>
+      		<a href="https://github.com/matheusaraujo/mvideoconverter" target="_blank">github</a>
+      	</small>
+      </h1>
+    </div>
+
+    <div class="row">
+      
+      <!-- The Upload Form -->
+      <div class="col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Upload The File</h3>
+          </div>
+          <div class="panel-body">
+            <input class="bottom-marg-15" type="file" name="file" file></input>
+            <!-- Progress Bar -->
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
+                {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
+              </div>
+            </div>            
+            <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
+          </div>
+        </div>
+      </div>     
+    </div>
+
+  </div>          
+</body>
+
 </html>
