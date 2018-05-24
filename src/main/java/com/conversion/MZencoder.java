@@ -1,4 +1,4 @@
-package com.encoding;
+package com.conversion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import com.brightcove.zencoder.client.model.*;
 import com.brightcove.zencoder.client.request.*;
 import com.brightcove.zencoder.client.response.*;
 
-public class Encoding {
+public class MZencoder {
 
 	private ZencoderClient client;
 	
@@ -18,7 +18,7 @@ public class Encoding {
 	private final ContainerFormat DEFAULT_OUTPUT = ContainerFormat.MP4;
 	private final String OUTPUT_URL = "s3://mvideoconverter";
 	
-	public Encoding() {
+	public MZencoder() {
 		client = new ZencoderClient(API_KEY);
 	}
 	

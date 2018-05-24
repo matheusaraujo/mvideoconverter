@@ -1,15 +1,17 @@
-package com.encoding;
+package com.conversion;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class EncodingTest {
+import com.conversion.MZencoder;
+
+public class MZencoderTest {
 
 	@Test
 	public void testCreateAndQueryAJob() {
 		
-		Encoding en = new Encoding();
+		MZencoder en = new MZencoder();
 		
 		String input = "s3://zencodertesting/test.mov";
 		String output = "test";

@@ -22,7 +22,6 @@ public class MAmazonS3 {
         	
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withRegion(CLIENT_REGION)
-                    //.withCredentials(new ProfileCredentialsProvider())
                     .withCredentials(new EnvironmentVariableCredentialsProvider())
                     .build();
 
@@ -48,6 +47,10 @@ public class MAmazonS3 {
             e.printStackTrace();
             return "-1";
         }
+	}
+	
+	public String GetPublicLink(String fileName) {
+		return String.format("s3://%s/%s", BUCKET_NAME, fileName);
 	}
 
 }

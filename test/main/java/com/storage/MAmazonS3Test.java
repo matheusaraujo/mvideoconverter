@@ -18,5 +18,20 @@ public class MAmazonS3Test {
 		assertTrue(url.startsWith("http"));
 		
 	}
+	
+	@Test
+	public void testGetPublicLink() {
+		
+		MAmazonS3 s3 = new MAmazonS3();
+		
+		String fileName = "aaa";
+		
+		String publicLink = s3.GetPublicLink(fileName);
+		
+		assertNotNull(publicLink);
+		assertTrue(publicLink.contains(fileName));
+		assertTrue(publicLink.startsWith("s3"));
+		
+	}
 
 }
