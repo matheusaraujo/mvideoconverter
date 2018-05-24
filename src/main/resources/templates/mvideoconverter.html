@@ -23,7 +23,7 @@
           </div>
           <div class="panel-body">
             <input class="bottom-marg-15" type="file" name="file" file></input>
-            <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
+            <a class="btn btn-primary btn-block btn-lg" ng-click="upload()" ng-disabled="started">Upload</a>
           </div>
         </div>
       </div>  
@@ -73,6 +73,15 @@
           </div>
         </div>
       </div>   
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <video width="400" controls ng-if="finished" class="animate-if">>
+            <source ng-src="{{trustSrc(videoUrl)}}" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+      </div>
     </div>
 
   </div>          

@@ -31,7 +31,8 @@ public class ApiController {
 		String inputUrl = s3.GetPublicLink(request.getName());
 		String newName = s3.RemoveExtension(request.getName());
 		String jobId = zencoder.CreateNewJob(inputUrl, newName);
-		return new PostConversionResponseDto(jobId);
+		String outputUrl = zencoder.GetPublicOutputUrl(newName);
+		return new PostConversionResponseDto(jobId, outputUrl);
 	}
 	
 	@RequestMapping(value = "/api/conversion/{jobId}", method = {RequestMethod.GET})

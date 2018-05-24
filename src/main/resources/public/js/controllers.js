@@ -7,7 +7,7 @@ var STATE_ERROR = "fa-times-circle text-danger";
 
 var controllers = angular.module('controllers', []);
 
-controllers.controller('UploadController',['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
+controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce', function($scope, $http, $timeout, $sce) {
     
 	$scope.fileName = "";
 	$scope.fileType = "";
@@ -18,6 +18,10 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', functi
 	$scope.step2class = STATE_INITIAL;
 	$scope.step3class = STATE_INITIAL;
 	$scope.step4class = STATE_INITIAL;
+
+	$scope.started = false;
+	$scope.finished = false;
+	$scope.videoUrl = null;
 	
 	$scope.$watch('file', function(newf, oldf) {
 		if (newf) {
@@ -29,6 +33,9 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', functi
 	});
 
 	$scope.startUpload = function () {
+
+		$scope.started = true;
+
 		$scope.step1class = STATE_INITIAL;
 		$scope.step2class = STATE_INITIAL;
 		$scope.step3class = STATE_INITIAL;
@@ -90,6 +97,8 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', functi
 
 		console.info(resp);
 
+		$scope.videoUrl = resp.path;
+
 		$http.get('/api/conversion/' + resp.jobId)
 			.success($scope.step4success)
 			.error($scope.step4error);
@@ -111,6 +120,7 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', functi
 		}
 		else if (resp.state == 'finished') {
 			$scope.step4class = STATE_DONE;
+			$scope.finished = true;
 			toastr.success('File converted!');
 		}
 		else {
@@ -125,5 +135,9 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', functi
 		console.error(resp);
 		toastr.error("An Error Occurred Attaching Your File");
 	};
+
+	$scope.trustSrc = function(src) {
+    	return $sce.trustAsResourceUrl(src);
+  	};
 
 }]);

@@ -11,12 +11,12 @@ public class MZencoderTest {
 	@Test
 	public void testCreateAndQueryAJob() {
 		
-		MZencoder en = new MZencoder();
+		MZencoder mz = new MZencoder();
 		
 		String input = "s3://zencodertesting/test.mov";
 		String output = "test";
 		
-		String id = en.CreateNewJob(input, output);
+		String id = mz.CreateNewJob(input, output);
 		
 		assertNotNull(id);
 		assertNotEquals("-1", id);
@@ -25,7 +25,7 @@ public class MZencoderTest {
 		String state = "none";
 		
 		while(attempts < 10) {
-			state = en.QueryJob(id);			
+			state = mz.QueryJob(id);			
 			if (state == "finished")
 				break;		
 			attempts++;
@@ -33,6 +33,28 @@ public class MZencoderTest {
 		
 		assertEquals("finished", state);
 		assertTrue(attempts < 10);
+		
+	}
+	
+	@Test 
+	public void testGetOuputUrl() {		
+		MZencoder mz = new MZencoder();
+		
+		String outputUrl = mz.GetOuputUrl("aaa");
+		
+		assertTrue(outputUrl.contains("aaa"));
+		assertTrue(outputUrl.startsWith("s3"));
+		
+	}
+	
+	@Test 
+	public void testGetPublicOuputUrl() {		
+		MZencoder mz = new MZencoder();
+		
+		String outputUrl = mz.GetPublicOutputUrl("aaa");
+		
+		assertTrue(outputUrl.contains("aaa"));
+		assertTrue(outputUrl.startsWith("http"));
 		
 	}
 

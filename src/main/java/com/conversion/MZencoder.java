@@ -16,18 +16,12 @@ public class MZencoder {
 	private final String API_KEY = "84f56563b42d1c55aafa7b4f6190d8b3";
 	private final String CREDENTIAL = "s3";
 	private final ContainerFormat DEFAULT_OUTPUT = ContainerFormat.MP4;
-	private final String OUTPUT_URL = "s3://mvideoconverter";
+	private final String BUCKET = "mvideoconverter";
 	
 	public MZencoder() {
 		client = new ZencoderClient(API_KEY);
 	}
 	
-	/**
-	 * Create a Job to encoding and returns its id
-	 * @param inputUrl, video input url
-	 * @param outputFileName, name of the converted file
-	 * @return id of the job
-	 */
 	public String CreateNewJob(String inputUrl, String outputFileName) {
 		
 		ZencoderCreateJobRequest job = new ZencoderCreateJobRequest();
@@ -37,7 +31,7 @@ public class MZencoder {
 		List<ZencoderOutput> outputs = new ArrayList<ZencoderOutput>();
 		ZencoderOutput output1 = new ZencoderOutput();
 		output1.setFormat(DEFAULT_OUTPUT);
-		String outputUrl = String.format("%s/%s.%s", OUTPUT_URL, outputFileName, DEFAULT_OUTPUT.toString());
+		String outputUrl = GetOuputUrl(outputFileName);
 		output1.setUrl(outputUrl);
 		output1.setCredentials(CREDENTIAL);
 		outputs.add(output1);		
@@ -56,11 +50,6 @@ public class MZencoder {
 		
 	}
 	
-	/***
-	 * Query the state of a Job
-	 * @param id Job's id
-	 * @return Job's state
-	 */
 	public String QueryJob(String id) {
 		
 		ZencoderJobDetail details;
@@ -79,7 +68,15 @@ public class MZencoder {
 			e.printStackTrace();
 			return "none";
 		}
-
+	}
+	
+	
+	public String GetOuputUrl(String fileName) {
+		return String.format("s3://%s/%s.%s", BUCKET, fileName, DEFAULT_OUTPUT.toString());
+	}
+	
+	public String GetPublicOutputUrl(String fileName) {
+		return String.format("http://%s.s3.amazonaws.com/%s.%s", BUCKET, fileName, DEFAULT_OUTPUT.toString());
 	}
 	
 }
