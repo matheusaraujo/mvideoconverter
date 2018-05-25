@@ -44,11 +44,13 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 		$scope.step2class = STATE_INITIAL;
 		$scope.step3class = STATE_INITIAL;
 		$scope.step4class = STATE_INITIAL;
+
+		$scope.started = false;
+		$scope.finished = false;
+		$scope.videoUrl = null;
 	};
 
     $scope.upload = function() {
-
-		$scope.startUpload();
 
     	if (!$scope.file) {
 			toastr.error('Please select a file to upload');
@@ -57,6 +59,7 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
     		toastr.error('Please select a video file to upload');	
     	}
     	else {
+    		$scope.startUpload();
     		$scope.step1class = STATE_LOADING;
     		$http.post('/api/presigned', {name: $scope.file.name, type: $scope.file.type })
 	      		.success($scope.step1success)
