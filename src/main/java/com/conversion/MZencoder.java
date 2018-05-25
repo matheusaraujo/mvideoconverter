@@ -14,25 +14,25 @@ public class MZencoder {
 
 	private ZencoderClient client;
 	
-	private final String API_KEY = "84f56563b42d1c55aafa7b4f6190d8b3";
-	private final String CREDENTIAL = "s3";
-	private final ContainerFormat DEFAULT_OUTPUT = ContainerFormat.MP4;
-	private final String BUCKET = "mvideoconverter";
+	private static final String API_KEY = "84f56563b42d1c55aafa7b4f6190d8b3";
+	private static final String CREDENTIAL = "s3";
+	private static final ContainerFormat DEFAULT_OUTPUT = ContainerFormat.MP4;
+	private static final String BUCKET = "mvideoconverter";
 	
 	public MZencoder() {
 		client = new ZencoderClient(API_KEY);
 	}
 	
-	public String CreateNewJob(String inputUrl, String outputFileName) throws MException {
+	public String createNewJob(String inputUrl, String outputFileName) throws MException {
 		
 		try {
 			ZencoderCreateJobRequest job = new ZencoderCreateJobRequest();		
 			job.setInput(inputUrl);
 			
-			List<ZencoderOutput> outputs = new ArrayList<ZencoderOutput>();
+			List<ZencoderOutput> outputs = new ArrayList<>();
 			ZencoderOutput output1 = new ZencoderOutput();
 			output1.setFormat(DEFAULT_OUTPUT);
-			String outputUrl = GetOuputUrl(outputFileName);
+			String outputUrl = getOuputUrl(outputFileName);
 			output1.setUrl(outputUrl);
 			output1.setCredentials(CREDENTIAL);
 			outputs.add(output1);		
@@ -47,7 +47,7 @@ public class MZencoder {
 		
 	}
 	
-	public String QueryJob(String id) throws MException {
+	public String queryJob(String id) throws MException {
 		try {
 			ZencoderJobDetail details = client.getZencoderJob(id);			
 			ZencoderMediaFile output1 = details.getOutputMediaFiles().get(0);			
@@ -60,11 +60,11 @@ public class MZencoder {
 	}
 	
 	
-	public String GetOuputUrl(String fileName) {
+	public String getOuputUrl(String fileName) {
 		return String.format("s3://%s/%s.%s", BUCKET, fileName, DEFAULT_OUTPUT.toString());
 	}
 	
-	public String GetPublicOutputUrl(String fileName) {
+	public String getPublicOutputUrl(String fileName) {
 		return String.format("http://%s.s3.amazonaws.com/%s.%s", BUCKET, fileName, DEFAULT_OUTPUT.toString());
 	}
 	

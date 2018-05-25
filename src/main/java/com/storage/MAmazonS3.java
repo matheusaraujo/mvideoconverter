@@ -13,15 +13,15 @@ import com.example.MException;
 
 public class MAmazonS3 {
 	
-	private final String CLIENT_REGION = "us-east-1";
-	private final String BUCKET_NAME = "mvideoconverter";
-	private final int MINUTES_TO_EXPIRE = 60;
+	private static final String CLIENT_REGION = "us-east-1";
+	private static final String BUCKET_NAME = "mvideoconverter";
+	private static final int MINUTES_TO_EXPIRE = 60;
 	
-	public String GeneratePreSignedUrl(String fileName, String fileType) throws MException {
+	public String generatePreSignedUrl(String fileName, String fileType) throws MException {
 		
         try {            
         	
-        	if (!IsValidFormat(fileType))
+        	if (!isValidFormat(fileType))
         		throw new MException("Invalid file type!");
         	
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
@@ -53,15 +53,15 @@ public class MAmazonS3 {
         }
 	}
 	
-	public String GetPublicLink(String fileName) {
+	public String getPublicLink(String fileName) {
 		return String.format("s3://%s/%s", BUCKET_NAME, fileName);
 	}
 	
-	public String RemoveExtension(String fileName) {
+	public String removeExtension(String fileName) {
 		return fileName.substring(0, fileName.lastIndexOf('.'));
 	}
 	
-	public Boolean IsValidFormat(String fileType) {
+	public Boolean isValidFormat(String fileType) {
 		return fileType.indexOf("video") > -1;
 	}
 

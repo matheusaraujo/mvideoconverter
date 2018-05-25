@@ -12,7 +12,7 @@ public class MAmazonS3Test {
 	public void testGeneratePreSignedUrl() {
 		try {
 			MAmazonS3 s3 = new MAmazonS3();
-			String url = s3.GeneratePreSignedUrl("testfile", "video/dv");
+			String url = s3.generatePreSignedUrl("testfile", "video/dv");
 			
 			assertNotNull(url);
 			assertNotEquals("-1", url);
@@ -27,7 +27,7 @@ public class MAmazonS3Test {
 	public void testGeneratePreSignedUrlFail() {
 		try {
 			MAmazonS3 s3 = new MAmazonS3();
-			s3.GeneratePreSignedUrl("testfile", "application/pdf");
+			s3.generatePreSignedUrl("testfile", "application/pdf");
 			
 		} catch (MException e) {
 			assertNotNull(e);
@@ -41,7 +41,7 @@ public class MAmazonS3Test {
 		
 		String fileName = "aaa";
 		
-		String publicLink = s3.GetPublicLink(fileName);
+		String publicLink = s3.getPublicLink(fileName);
 		
 		assertNotNull(publicLink);
 		assertTrue(publicLink.contains(fileName));
@@ -55,7 +55,7 @@ public class MAmazonS3Test {
 		
 		String fullName = "aaa.mp3";
 		
-		String name = s3.RemoveExtension(fullName);
+		String name = s3.removeExtension(fullName);
 		
 		assertEquals("aaa", name);
 		assertTrue(fullName.contains(name));
@@ -66,7 +66,7 @@ public class MAmazonS3Test {
 	public void testeIsValidFormatTrue() {
 		MAmazonS3 s3 = new MAmazonS3();
 		
-		Boolean valid = s3.IsValidFormat("video/dv");
+		Boolean valid = s3.isValidFormat("video/dv");
 		assertTrue(valid);
 	}
 	
@@ -74,7 +74,7 @@ public class MAmazonS3Test {
 	public void testeIsValidFormatFalse() {
 		MAmazonS3 s3 = new MAmazonS3();
 		
-		Boolean valid = s3.IsValidFormat("application/pdf");
+		Boolean valid = s3.isValidFormat("application/pdf");
 		assertFalse(valid);
 	}
 

@@ -20,10 +20,10 @@ import com.storage.MAmazonS3;
 public class ApiController {
 	
 	@RequestMapping(value = "/api/presigned", method = {RequestMethod.POST})
-	public ResponseEntity<Object> PostPreSigned(@RequestBody PreSignedRequestDto request) {
+	public ResponseEntity<Object> postPreSigned(@RequestBody PreSignedRequestDto request) {
 		try {
 			MAmazonS3 s3 = new MAmazonS3();		
-			String url = s3.GeneratePreSignedUrl(request.getName(), request.getType());
+			String url = s3.generatePreSignedUrl(request.getName(), request.getType());
 		
 			return ResponseEntity
 				.status(HttpStatus.CREATED)
@@ -37,14 +37,14 @@ public class ApiController {
 	}
 	
 	@RequestMapping(value = "/api/conversion", method = {RequestMethod.POST})
-	public ResponseEntity<Object> PostConversion(@RequestBody PostConversionRequestDto request) {
+	public ResponseEntity<Object> postConversion(@RequestBody PostConversionRequestDto request) {
 		try {
 			MZencoder zencoder = new MZencoder();
 			MAmazonS3 s3 = new MAmazonS3();
-			String inputUrl = s3.GetPublicLink(request.getName());
-			String newName = s3.RemoveExtension(request.getName());
-			String jobId = zencoder.CreateNewJob(inputUrl, newName);
-			String outputUrl = zencoder.GetPublicOutputUrl(newName);
+			String inputUrl = s3.getPublicLink(request.getName());
+			String newName = s3.removeExtension(request.getName());
+			String jobId = zencoder.createNewJob(inputUrl, newName);
+			String outputUrl = zencoder.getPublicOutputUrl(newName);
 			return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.body(new PostConversionResponseDto(jobId, outputUrl));
@@ -57,10 +57,10 @@ public class ApiController {
 	}
 	
 	@RequestMapping(value = "/api/conversion/{jobId}", method = {RequestMethod.GET})
-	public ResponseEntity<Object> GetConversion(@PathVariable String jobId) {
+	public ResponseEntity<Object> getConversion(@PathVariable String jobId) {
 		try {
 			MZencoder zencoder = new MZencoder();
-			String state = zencoder.QueryJob(jobId);
+			String state = zencoder.queryJob(jobId);
 			return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.body(new GetConversionResponseDto(jobId, state));
