@@ -15,7 +15,7 @@
             <h3 class="panel-title">Original File</h3>
           </div>
           <div class="panel-body">
-            <input class="bottom-marg-15" type="file" name="file" file></input>
+            <input class="bottom-marg-15" type="file" name="file" file accept=".avi,.flv,.wmv,.mp4,.dv,.mov,video/*"></input>
             <ul ng-if="file">
               <li>Name:&nbsp;<strong>{{fileName}}</strong></li>
               <li>Type:&nbsp;<strong>{{fileType}}</strong></li>
@@ -64,7 +64,7 @@
               Converted File
             </div>
             <div class="panel-body">
-              <video width="400" controls>
+              <video width="400" autoplay="autoplay" controls>
                 <source ng-src="{{trustSrc(videoUrl)}}" type="video/mp4">
                 Your browser does not support HTML5 video.
               </video>

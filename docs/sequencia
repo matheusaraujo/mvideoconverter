@@ -17,6 +17,7 @@ alt conversao do arquivo
     note right of zencoder: iniciar job
     zencoder->api: retornar id do job
     api->app: retornar id do job
+    zencoder->amazonS3: armazenar arquivo convertido
 end
 alt exibicao do arquivo
     app->api: buscar situacao do job

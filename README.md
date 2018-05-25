@@ -27,9 +27,10 @@ A conversão e exibição do vídeo se dá nos seguintes passos:
 1. Usuário seleciona arquivo
 1. Angular App requisita uma URL Pre-Signed para a API
 1. API requisita a URL Pre-Signed para o Amazon S3
-1. Angular App sobe o arquivo para a Amazon S3
+1. Angular App sobe o arquivo para o Amazon S3
 1. Angular App notifica a API sobre o upload
 1. API cria um Job no Zencoder e retorna para o App
+1. Zencoder armazena o vídeo convertido no Amazon S3
 1. Angular App requisita o status do vídeo até que esteja convertido
 1. O vídeo está convertido
 1. Angular App exibe o vídeo
