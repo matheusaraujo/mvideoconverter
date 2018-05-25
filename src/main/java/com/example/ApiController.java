@@ -1,5 +1,7 @@
 package com.example;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,27 +20,55 @@ import com.storage.MAmazonS3;
 public class ApiController {
 	
 	@RequestMapping(value = "/api/presigned", method = {RequestMethod.POST})
-	public PreSignedResponseDto PostPreSigned(@RequestBody PreSignedRequestDto request) {
-		MAmazonS3 s3 = new MAmazonS3();		
-		String url = s3.GeneratePreSignedUrl(request.getName());
-		return new PreSignedResponseDto(url);
+	public ResponseEntity<Object> PostPreSigned(@RequestBody PreSignedRequestDto request) {
+		try {
+			MAmazonS3 s3 = new MAmazonS3();		
+			String url = s3.GeneratePreSignedUrl(request.getName(), request.getType());
+		
+			return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.body(new PreSignedResponseDto(url));
+		}
+		catch(MException e) {
+			return ResponseEntity
+				.status(HttpStatus.BAD_REQUEST)
+				.body(e.getMessage());
+		}
 	}
 	
 	@RequestMapping(value = "/api/conversion", method = {RequestMethod.POST})
-	public PostConversionResponseDto PostConversion(@RequestBody PostConversionRequestDto request) {
-		MZencoder zencoder = new MZencoder();
-		MAmazonS3 s3 = new MAmazonS3();
-		String inputUrl = s3.GetPublicLink(request.getName());
-		String newName = s3.RemoveExtension(request.getName());
-		String jobId = zencoder.CreateNewJob(inputUrl, newName);
-		String outputUrl = zencoder.GetPublicOutputUrl(newName);
-		return new PostConversionResponseDto(jobId, outputUrl);
+	public ResponseEntity<Object> PostConversion(@RequestBody PostConversionRequestDto request) {
+		try {
+			MZencoder zencoder = new MZencoder();
+			MAmazonS3 s3 = new MAmazonS3();
+			String inputUrl = s3.GetPublicLink(request.getName());
+			String newName = s3.RemoveExtension(request.getName());
+			String jobId = zencoder.CreateNewJob(inputUrl, newName);
+			String outputUrl = zencoder.GetPublicOutputUrl(newName);
+			return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.body(new PostConversionResponseDto(jobId, outputUrl));
+		}
+		catch(MException e) {
+			return ResponseEntity
+				.status(HttpStatus.BAD_REQUEST)
+				.body(e.getMessage());
+		}
 	}
 	
 	@RequestMapping(value = "/api/conversion/{jobId}", method = {RequestMethod.GET})
-	public GetConversionResponseDto GetConversion(@PathVariable String jobId) {
-		MZencoder zencoder = new MZencoder();
-		String state = zencoder.QueryJob(jobId);
-		return new GetConversionResponseDto(jobId, state);
+	public ResponseEntity<Object> GetConversion(@PathVariable String jobId) {
+		try {
+			MZencoder zencoder = new MZencoder();
+			String state = zencoder.QueryJob(jobId);
+			return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.body(new GetConversionResponseDto(jobId, state));
+		}
+		catch(MException e) {
+			return ResponseEntity
+				.status(HttpStatus.BAD_REQUEST)
+				.body(e.getMessage());
+		}
 	}
 }

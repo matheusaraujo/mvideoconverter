@@ -32,6 +32,10 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 		}
 	});
 
+	$scope.newConversion = function () {
+		window.location.reload();
+	};
+
 	$scope.startUpload = function () {
 
 		$scope.started = true;
@@ -46,14 +50,17 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 
 		$scope.startUpload();
 
-    	if ($scope.file) {
+    	if (!$scope.file) {
+			toastr.error('Please select a file to upload');
+    	}
+    	else if ($scope.file.type.indexOf('video') === -1) {
+    		toastr.error('Please select a video file to upload');	
+    	}
+    	else {
     		$scope.step1class = STATE_LOADING;
     		$http.post('/api/presigned', {name: $scope.file.name, type: $scope.file.type })
 	      		.success($scope.step1success)
 				.error($scope.step1error);
-    	}
-    	else {
-    		toastr.error('Please select a file to upload');
     	}
     };
 
@@ -67,10 +74,9 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 			.error($scope.step1error);
 	};
 
-	$scope.step1error = function(resp) {
+	$scope.step1error = function(resp, code) {
 		$scope.step1class = STATE_ERROR;
-		console.error(resp);
-		toastr.error("An Error Occurred Attaching Your File");
+		$scope.errorCallback(resp, code);
 	};
 
 	$scope.step2success = function(resp) {
@@ -83,10 +89,9 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 			.error($scope.step3error);
 	};
 
-	$scope.step2error = function(resp) {
+	$scope.step2error = function(resp, code) {
 		$scope.step2class = STATE_ERROR;
-		console.error(resp);
-		toastr.error("An Error Occurred Attaching Your File");
+		$scope.errorCallback(resp, code);
 	};
 
 	$scope.step3success = function (resp) {
@@ -101,10 +106,9 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 			.error($scope.step4error);
 	};
 
-	$scope.step3error = function (resp) {
+	$scope.step3error = function (resp, code) {
 		$scope.step3class = STATE_ERROR;
-		console.error(resp);
-		toastr.error("An Error Occurred Attaching Your File");
+		$scope.errorCallback(resp, code);
 	};
 
 	$scope.step4success = function (resp) {
@@ -127,14 +131,22 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 		}
 	};
 
-	$scope.step4error = function (resp) {
+	$scope.step4error = function (resp, code) {
 		$scope.step4class = STATE_ERROR;
-		console.error(resp);
-		toastr.error("An Error Occurred Attaching Your File");
+		$scope.errorCallback(resp, code);
 	};
 
 	$scope.trustSrc = function(src) {
     	return $sce.trustAsResourceUrl(src);
   	};
+
+  	$scope.errorCallback = function(resp, code) {
+  		console.log('error - ' + code);
+  		console.log(resp);
+  		if (code === 400)
+  			toastr.error(resp)
+  		else
+  			toastr.error("An Error Occurred Attaching Your File");
+  	}
 
 }]);

@@ -8,6 +8,7 @@ import com.brightcove.zencoder.client.ZencoderClientException;
 import com.brightcove.zencoder.client.model.*;
 import com.brightcove.zencoder.client.request.*;
 import com.brightcove.zencoder.client.response.*;
+import com.example.MException;
 
 public class MZencoder {
 
@@ -22,51 +23,39 @@ public class MZencoder {
 		client = new ZencoderClient(API_KEY);
 	}
 	
-	public String CreateNewJob(String inputUrl, String outputFileName) {
-		
-		ZencoderCreateJobRequest job = new ZencoderCreateJobRequest();
-		
-		job.setInput(inputUrl);
-		
-		List<ZencoderOutput> outputs = new ArrayList<ZencoderOutput>();
-		ZencoderOutput output1 = new ZencoderOutput();
-		output1.setFormat(DEFAULT_OUTPUT);
-		String outputUrl = GetOuputUrl(outputFileName);
-		output1.setUrl(outputUrl);
-		output1.setCredentials(CREDENTIAL);
-		outputs.add(output1);		
-		job.setOutputs(outputs);
-		
-		ZencoderCreateJobResponse response;
+	public String CreateNewJob(String inputUrl, String outputFileName) throws MException {
 		
 		try {
-			response = client.createZencoderJob(job);
+			ZencoderCreateJobRequest job = new ZencoderCreateJobRequest();		
+			job.setInput(inputUrl);
+			
+			List<ZencoderOutput> outputs = new ArrayList<ZencoderOutput>();
+			ZencoderOutput output1 = new ZencoderOutput();
+			output1.setFormat(DEFAULT_OUTPUT);
+			String outputUrl = GetOuputUrl(outputFileName);
+			output1.setUrl(outputUrl);
+			output1.setCredentials(CREDENTIAL);
+			outputs.add(output1);		
+			job.setOutputs(outputs);
+			
+			ZencoderCreateJobResponse response = client.createZencoderJob(job);
 			return response.getId();
 		} catch (ZencoderClientException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "-1";
+			throw new MException("ZencoderClientException");
 		}
 		
 	}
 	
-	public String QueryJob(String id) {
-		
-		ZencoderJobDetail details;
-		
+	public String QueryJob(String id) throws MException {
 		try {
-			details = client.getZencoderJob(id);
-			
-			ZencoderMediaFile output1 = details.getOutputMediaFiles().get(0);
-			
-			State st = output1.getState();
-			
+			ZencoderJobDetail details = client.getZencoderJob(id);			
+			ZencoderMediaFile output1 = details.getOutputMediaFiles().get(0);			
+			State st = output1.getState();			
 			return st.toString();
-			
 		} catch (ZencoderClientException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "none";
+			throw new MException("ZencoderClientException");
 		}
 	}
 	
