@@ -1,21 +1,29 @@
 title mvideoconverter
-alt envio do arquivo
+alt requisicao presigned url
+    app->api: requisitar url
+    api->amazonS3: requisitar url
+    note right of amazonS3: gerar presigned url 
+    amazonS3->api: retorno
+    api->app: retorno
+end
+alt upload arquivo
     app->amazonS3: enviar arquivo
+    note right of amazonS3: armazenar arquivo de entrada
     amazonS3->app: retorno
-    app->api: enviar url do arquivo
-    api->zencoder: enviar url do arquivo
-    zencoder->api: retorno com id do job
-    api->app: retorno com id do job
 end
 alt conversao do arquivo
-    zencoder->zencoder: converter arquivo
-    zencoder->amazonS3: salvar arquivo convetido
+    app->api: notificar sucesso upload
+    api->zencoder: solicitar job para conversao
+    note right of zencoder: iniciar job
+    zencoder->api: retornar id do job
+    api->app: retornar id do job
 end
 alt exibicao do arquivo
     app->api: buscar situacao do job
     api->zencoder: buscar situacao do job
-    zencoder->api: retorno com situacao do job
-    api->app: retorno com situacao do job
-    app->amazonS3: abrir video
-    app->app: exibir video
+    note right of zencoder: job esta pronto?
+    zencoder->api: retornar situacao do job
+    api->app: retornar situacao do job
+    app->amazonS3: buscar video
+    note right of app: exibir video
 end

@@ -18,7 +18,6 @@ A aplicação Demo está rodando no [Heroku](http://www.heroku.com).
 ### Diagrama de componentes
 A aplicação está dividida em um WebApp AngularJS e uma API em Java Spring, além dos Amazon S3 e Zencoder.
 
-***Desatualizado***
 ![Componentes](/docs/componentes.jpg)
 
 
@@ -35,9 +34,7 @@ A conversão e exibição do vídeo se dá nos seguintes passos:
 1. O vídeo está convertido
 1. Angular App exibe o vídeo
 
-***Desatualizado***
 ![Sequência](/docs/sequencia.png)
-
 
 ## Próximos passos
 Algumas sugestão de melhorias são:
