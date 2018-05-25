@@ -42,10 +42,7 @@ Algumas sugestão de melhorias são:
 	* Possibilitar escolher formato da conversão
 	* Possibilitar converter arquivo a partir de uma URL
 	* Armazenar uma referência para os vídeos convertidos, de forma que eles possam ser apenas exibidos em um segundo acesso	
-* Alterações em código
-	* Refatorar a API usando injeção de dependências
-	* Criar arquivos de configuração externos ao código
-	
+
 Acesse o [Projeto](https://github.com/matheusaraujo/mvideoconverter/projects/1) para acompanhar.
 
 ## Referências
