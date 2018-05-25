@@ -44,10 +44,7 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 		$scope.step2class = STATE_INITIAL;
 		$scope.step3class = STATE_INITIAL;
 		$scope.step4class = STATE_INITIAL;
-
-		$scope.started = false;
-		$scope.finished = false;
-		$scope.videoUrl = null;
+		
 	};
 
     $scope.upload = function() {
