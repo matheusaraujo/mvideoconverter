@@ -11,15 +11,16 @@ Os arquivos são armazenados na [Amazon S3](https://aws.amazon.com/s3/) e conver
 
 A aplicação Demo está rodando no [Heroku](http://www.heroku.com).
 
-*Por limitações da versão free da ferramenta Zencoder, os vídeos convertidos têm, no máximo, 5 segundos*
+*Por limitações da versão free da ferramenta Zencoder, os vídeos convertidos têm, no máximo, 5 segundos.*
 
 ## Diagramas
 
 ### Diagrama de componentes
 A aplicação está dividida em um WebApp AngularJS e uma API em Java Spring, além dos Amazon S3 e Zencoder.
 
-![Componentes](/docs/componentes.jpg)
 ***Desatualizado***
+![Componentes](/docs/componentes.jpg)
+
 
 ### Diagrama de sequência
 A conversão e exibição do vídeo se dá nos seguintes passos:
@@ -34,8 +35,9 @@ A conversão e exibição do vídeo se dá nos seguintes passos:
 1. O vídeo está convertido
 1. Angular App exibe o vídeo
 
-![Sequência](/docs/sequencia.png)
 ***Desatualizado***
+![Sequência](/docs/sequencia.png)
+
 
 ## Próximos passos
 Algumas sugestão de melhorias são:
