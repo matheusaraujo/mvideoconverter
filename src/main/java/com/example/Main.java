@@ -53,11 +53,6 @@ public class Main {
     return "index";
   }
 
-  @RequestMapping("/mvideoconverter")
-  String mvideoconverter() {
-	  return "mvideoconverter";
-  }
-
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {

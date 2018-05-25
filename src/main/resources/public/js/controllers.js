@@ -1,9 +1,9 @@
 'use strict';
 
-var STATE_INITIAL = "fa-circle text-muted";
-var STATE_LOADING = "fa-spinner fa-spin";
-var STATE_DONE = "fa-check-circle text-success";
-var STATE_ERROR = "fa-times-circle text-danger";
+var STATE_INITIAL = "glyphicon glyphicon-play-circle text-muted";
+var STATE_LOADING = "glyphicon glyphicon-refresh gly-spin";
+var STATE_DONE = "glyphicon glyphicon-ok-circle text-success";
+var STATE_ERROR = "glyphicon glyphicon-remove-circle text-danger";
 
 var controllers = angular.module('controllers', []);
 
@@ -22,7 +22,7 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 	$scope.started = false;
 	$scope.finished = false;
 	$scope.videoUrl = null;
-	
+
 	$scope.$watch('file', function(newf, oldf) {
 		if (newf) {
 			$scope.fileName = newf.name;
@@ -60,7 +60,6 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
     $scope.step1success = function(resp) {
 		$scope.step1class = STATE_DONE;
 		$scope.step2class = STATE_LOADING;
-
 		console.info(resp);
 
 		$http.put(resp.url, $scope.file, {headers: {'Content-Type': $scope.file.type}})
@@ -77,7 +76,6 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 	$scope.step2success = function(resp) {
 		$scope.step2class = STATE_DONE;
 		$scope.step3class = STATE_LOADING;
-		
 		console.info(resp);
 
 		$http.post('/api/conversion', {name: $scope.file.name})
@@ -94,7 +92,6 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 	$scope.step3success = function (resp) {
 		$scope.step3class = STATE_DONE;
 		$scope.step4class = STATE_LOADING;
-
 		console.info(resp);
 
 		$scope.videoUrl = resp.path;
