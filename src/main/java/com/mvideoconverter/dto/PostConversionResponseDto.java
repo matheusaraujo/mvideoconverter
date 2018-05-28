@@ -1,21 +1,21 @@
-package com.example.dto;
+package com.mvideoconverter.dto;
 
 public class PostConversionResponseDto {
 
-	private String jobId;
+	private String id;
 	private String path;
 	
 	public PostConversionResponseDto() {
 		
 	}
 	
-	public PostConversionResponseDto(String jobId, String path) {
-		this.jobId = jobId;
+	public PostConversionResponseDto(String id, String path) {
+		this.id = id;
 		this.path = path;
 	}
 	
-	public String getJobId() {
-		return jobId;
+	public String getId() {
+		return id;
 	}
 	
 	public String getPath() {

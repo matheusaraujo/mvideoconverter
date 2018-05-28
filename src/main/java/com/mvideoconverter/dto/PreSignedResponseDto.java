@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.mvideoconverter.dto;
 
 public class PreSignedResponseDto {
 

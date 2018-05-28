@@ -101,7 +101,7 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 
 		$scope.videoUrl = resp.path;
 
-		$http.get('/api/conversion/' + resp.jobId)
+		$http.get('/api/conversion/' + resp.id)
 			.success($scope.step4success)
 			.error($scope.step4error);
 	};
@@ -114,10 +114,10 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 	$scope.step4success = function (resp) {
 		if (resp.state == 'waiting' || resp.state == 'processing') {
 			$timeout(function () {
-				$http.get('/api/conversion/' + resp.jobId)
+				$http.get('/api/conversion/' + resp.id)
 					.success($scope.step4success)
 					.error($scope.step4error);
-			}, 1000);
+			}, 5000);
 		}
 		else if (resp.state == 'finished') {
 			$scope.step4class = STATE_DONE;

@@ -1,4 +1,4 @@
-package com.example;
+package com.mvideoconverter.util;
 
 public class MException extends Exception {
 	

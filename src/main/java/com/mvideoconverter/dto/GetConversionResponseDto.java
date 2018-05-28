@@ -1,21 +1,21 @@
-package com.example.dto;
+package com.mvideoconverter.dto;
 
 public class GetConversionResponseDto {
 
-	private String jobId;
+	private String id;
 	private String state;
 	
 	public GetConversionResponseDto() {
 		
 	}
 	
-	public GetConversionResponseDto(String jobId, String state) {
-		this.jobId = jobId;
+	public GetConversionResponseDto(String id, String state) {
+		this.id = id;
 		this.state = state;
 	}
 	
-	public String getJobId() {
-		return jobId;
+	public String getId() {
+		return id;
 	}
 	
 	public String getState() {

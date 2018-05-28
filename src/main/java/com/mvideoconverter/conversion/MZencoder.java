@@ -1,4 +1,4 @@
-package com.conversion;
+package com.mvideoconverter.conversion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,9 @@ import com.brightcove.zencoder.client.ZencoderClientException;
 import com.brightcove.zencoder.client.model.*;
 import com.brightcove.zencoder.client.request.*;
 import com.brightcove.zencoder.client.response.*;
-import com.example.MException;
+import com.mvideoconverter.util.Constants;
+import com.mvideoconverter.util.MException;
+import com.mvideoconverter.util.Util;
 
 public class MZencoder {
 
@@ -16,30 +18,26 @@ public class MZencoder {
 	
 	private static final String API_KEY = "84f56563b42d1c55aafa7b4f6190d8b3";
 	private static final String CREDENTIAL = "s3";
-	private static final ContainerFormat DEFAULT_OUTPUT = ContainerFormat.MP4;
-	private static final String BUCKET = "mvideoconverter";
+	
 	
 	public MZencoder() {
 		client = new ZencoderClient(API_KEY);
 	}
 	
-	public String createNewJob(String inputUrl, String outputFileName) throws MException {
+	public ConversionInfo createConversion(String name) throws MException {
 		
 		try {
 			ZencoderCreateJobRequest job = new ZencoderCreateJobRequest();		
-			job.setInput(inputUrl);
 			
-			List<ZencoderOutput> outputs = new ArrayList<>();
-			ZencoderOutput output1 = new ZencoderOutput();
-			output1.setFormat(DEFAULT_OUTPUT);
-			String outputUrl = getOuputUrl(outputFileName);
-			output1.setUrl(outputUrl);
-			output1.setCredentials(CREDENTIAL);
-			outputs.add(output1);		
-			job.setOutputs(outputs);
+			String inputUrl = Util.getInputUrl(name);
+			String outputUrl = Util.getOuputUrl(name);
+			
+			job.setInput(inputUrl);
+			job.setOutputs(createOutput(outputUrl));
 			
 			ZencoderCreateJobResponse response = client.createZencoderJob(job);
-			return response.getId();
+			return new ConversionInfo(response.getId(), response.getOutputs().get(0).getUrl());
+			
 		} catch (ZencoderClientException e) {
 			e.printStackTrace();
 			throw new MException("ZencoderClientException");
@@ -47,7 +45,18 @@ public class MZencoder {
 		
 	}
 	
-	public String queryJob(String id) throws MException {
+	private List<ZencoderOutput> createOutput(String outputUrl) {
+		List<ZencoderOutput> outputs = new ArrayList<>();
+		ZencoderOutput output1 = new ZencoderOutput();
+		output1.setUrl(outputUrl);
+		output1.setFormat(Constants.DEFAULT_OUTPUT);
+		output1.setCredentials(CREDENTIAL);
+		outputs.add(output1);
+		return outputs;
+		
+	}
+	
+	public String queryConversion(String id) throws MException {
 		try {
 			ZencoderJobDetail details = client.getZencoderJob(id);			
 			ZencoderMediaFile output1 = details.getOutputMediaFiles().get(0);			
@@ -57,15 +66,6 @@ public class MZencoder {
 			e.printStackTrace();
 			throw new MException("ZencoderClientException");
 		}
-	}
-	
-	
-	public String getOuputUrl(String fileName) {
-		return String.format("s3://%s/%s.%s", BUCKET, fileName, DEFAULT_OUTPUT.toString());
-	}
-	
-	public String getPublicOutputUrl(String fileName) {
-		return String.format("http://%s.s3.amazonaws.com/%s.%s", BUCKET, fileName, DEFAULT_OUTPUT.toString());
 	}
 	
 }
