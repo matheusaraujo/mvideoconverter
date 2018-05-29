@@ -53,6 +53,7 @@ Acesse o [Projeto](https://github.com/matheusaraujo/mvideoconverter/projects/1) 
 	* https://devcenter.heroku.com/articles/s3
 * Zencoder
 	* https://zencoder.com/
+	* https://brightcovelearning.github.io/Brightcove-API-References/zencoder-api/v2/doc/index.html
 	* https://github.com/zencoder/zencoder-java
 * Amazon S3
 	* https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/getting-started.html
