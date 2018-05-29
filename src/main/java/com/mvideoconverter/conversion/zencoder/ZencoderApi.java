@@ -31,18 +31,17 @@ public class ZencoderApi {
 	
 	public CreateJobResponse createJob(CreateJobRequest request) throws ZencoderApiException {
 		
-		String url = API_URL + "/jobs";
-        String body = null;
-
-        RestTemplate rt = new RestTemplate();
-        
         try {
+        	
+        	String url = API_URL + "/jobs";
 
         	Gson gson = new Gson();
-        	body = gson.toJson(request);
+        	String body = gson.toJson(request);
             HttpHeaders headers = getHeaders();
             
             HttpEntity<String> entity = new HttpEntity<String>(body, headers);
+        
+            RestTemplate rt = new RestTemplate();
             
             ResponseEntity<String> response = rt.exchange(
                     url,
@@ -60,6 +59,34 @@ public class ZencoderApi {
             throw new ZencoderApiException(e.getMessage());
         }
 
+	}
+	
+	public QueryJobResponse queryJob(String id) throws ZencoderApiException {
+		try {
+			String url = API_URL + "/jobs/" + id + ".json";
+			
+			Gson gson = new Gson();
+			
+			HttpHeaders headers = getHeaders();
+			HttpEntity<String> entity = new HttpEntity<String>("", headers);
+			
+			RestTemplate rt = new RestTemplate();
+			
+			ResponseEntity<String> response = rt.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    String.class,
+                    new HashMap<String, Object>());
+			
+			QueryJobResponse queryJobResponse =
+					gson.fromJson(response.getBody(), QueryJobResponse.class);
+			
+			return queryJobResponse;
+			
+		} catch(Exception e) {
+			throw new ZencoderApiException(e.getMessage());
+		}
 	}
 	
 	private HttpHeaders getHeaders() {

@@ -117,7 +117,7 @@ controllers.controller('UploadController',['$scope', '$http', '$timeout', '$sce'
 				$http.get('/api/conversion/' + resp.id)
 					.success($scope.step4success)
 					.error($scope.step4error);
-			}, 5000);
+			}, 1000);
 		}
 		else if (resp.state == 'finished') {
 			$scope.step4class = STATE_DONE;

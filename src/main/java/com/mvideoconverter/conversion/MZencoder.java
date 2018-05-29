@@ -1,23 +1,18 @@
 package com.mvideoconverter.conversion;
 
-import com.brightcove.zencoder.client.ZencoderClient;
-import com.brightcove.zencoder.client.ZencoderClientException;
-import com.brightcove.zencoder.client.model.*;
-import com.brightcove.zencoder.client.response.*;
 import com.mvideoconverter.conversion.zencoder.CreateJobResponse;
+import com.mvideoconverter.conversion.zencoder.QueryJobResponse;
 import com.mvideoconverter.conversion.zencoder.ZencoderApi;
 import com.mvideoconverter.util.MException;
 import com.mvideoconverter.util.Util;
 
 public class MZencoder {
-
-	private ZencoderClient client;
 	
 	private static final String API_KEY = "84f56563b42d1c55aafa7b4f6190d8b3";
 	private static final String CREDENTIALS = "s3";
 	
 	public MZencoder() {
-		client = new ZencoderClient(API_KEY);
+		
 	}
 	
 	public ConversionInfo createConversion(String name) throws MException {
@@ -42,11 +37,11 @@ public class MZencoder {
 	
 	public String queryConversion(String id) throws MException {
 		try {
-			ZencoderJobDetail details = client.getZencoderJob(id);			
-			ZencoderMediaFile output1 = details.getOutputMediaFiles().get(0);			
-			State st = output1.getState();			
-			return st.toString();
-		} catch (ZencoderClientException e) {
+			ZencoderApi api = new ZencoderApi(API_KEY, CREDENTIALS);			
+			QueryJobResponse response = api.queryJob(id);			
+			return response.getJob().getOutputMediaFiles().get(0).getState();
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new MException("ZencoderClientException");
 		}

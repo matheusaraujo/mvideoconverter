@@ -32,7 +32,7 @@ public class MZencoderTest {
 			while(attempts++ < 30) {
 				state = mz.queryConversion(info.getId());			
 				
-				if (state == "finished")
+				if (state.equals("finished"))
 					break;		
 				
 				try {
